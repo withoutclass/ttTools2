@@ -17,15 +17,15 @@ ttTools = {
       rel  : 'stylesheet',
       href : 'https://raw.github.com/gavinhogan/ttTools2/develop/releases/latest/ttTools.css'
     }).appendTo(document.head);
-    /*  $('<link/>', {
+    /*
+
+
+*/
+      $('<link/>', {
           type : 'text/css',
           rel  : 'stylesheet',
           href : 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/sunny/jquery-ui.css'
       }).appendTo(document.head);
-
-
-*/
-
 
     this.views.menu.render();
     this.views.users.render();
