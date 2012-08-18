@@ -16,24 +16,6 @@ ttTools.views = {
         .append(ttTools.constants.submitIssue())
         .append(ttTools.constants.donateButton());
 
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
-div.settingsOverlay {\
-  width:400px !important;\
-  margin-top:15px !important;\
-  padding:20px 20px 0 !important;\
-}\
-div.settingsOverlay .ui-slider {\
-  height:0.5em;\
-  margin:10px 0 3px;\
-}\
-div.settingsOverlay .ui-slider .ui-slider-handle {\
-  width:0.9em;\
-  height:0.9em;\
-}\
-div#idleIndicatorDisplay, div#autoDJDisplay, div#autoVoteDisplay { text-align:center; }\
-      "}).appendTo($('div.settingsOverlay.modal'));
 
       $('div#autoSongDrop').slider({
         min   : 0,
@@ -141,36 +123,7 @@ div.modal ul li {\
     render : function () {
       turntable.playlist.setPlaylistHeight($('div.chat-container').css('top').replace('px', ''));
       $('#songs').addClass('top65')
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
-#songs.top65 {top:65px !important;}\
-div.queueView div.songlist { top:95px !important; }\
-div.queueView div.resultsLabel {\
-  top:65px !important;\
-  height:20px !important;\
-  padding-top:7px !important;\
-  background-color:#CCC !important;\
-}\
-div#playlistTools {\
-  left:0;\
-  right:0;\
-  top:38px;\
-  height:2em;\
-  padding:2px 0;\
-  position:absolute;\
-}\
-div#playlistTools div { float:left; }\
-div#playlistTools label { font-size:5px; }\
-div#playlistTools div#buttons { margin:0 12px; }\
-div#playlistTools div#buttons .ui-button-text { padding:2px 3px; }\
-div#playlistTools div#buttons button { width:auto; height:auto; margin-right:-1px; }\
-div#playlistTools div#buttons button .ui-button-text { padding:10px 11px; }\
-div#playlistTools .custom-icons { background:url(" + ttTools.resources.customIcons + "); }\
-div#playlistTools .custom-icons.youtube { background-position:0 0; }\
-div#playlistTools .custom-icons.dice { background-position:17px 0; }\
-div#playlistTools .custom-icons.soundcloud { background-position:34px 0; }\
-      "}).appendTo(document.head);
+
 
       $(util.buildTree(this.tree())).insertAfter(
         $('form.song-search')
