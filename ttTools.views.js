@@ -144,21 +144,11 @@ div.modal ul li {\
       $('<style/>', {
         type : 'text/css',
         text : "\
-#songs.top65 {top:65px !important;}\
-div.queueView div.songlist { top:95px !important; }\
-div.queueView div.resultsLabel {\
-  top:65px !important;\
-  height:20px !important;\
-  padding-top:7px !important;\
-  background-color:#CCC !important;\
-}\
 div#playlistTools {\
   left:0;\
   right:0;\
-  top:38px;\
   height:2em;\
   padding:2px 0;\
-  position:absolute;\
 }\
 div#playlistTools div { float:left; }\
 div#playlistTools label { font-size:5px; }\
