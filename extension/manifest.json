@@ -1,7 +1,8 @@
 {
-  "name"    : "ttTools Loader [GPHack]",
-  "version" : "1.0.132",
-  "description"    : "All the stuff you wish turntable.fm already had.",
+  "manifest_version": 2,
+  "name"    : "ttTools2",
+  "version" : "2.0.0",
+  "description"    : "Turntable is great, this makes it even better.",
   "icons"          : {
     "16"  : "icons/icon_16.png",
     "48"  : "icons/icon_48.png",
@@ -9,7 +10,7 @@
   },
   "page_action" : {
     "default_icon"  : "icons/icon_16.png",
-    "default_title" : "ttTools - All the stuff you wish turntable.fm already had."
+    "default_title" : "ttTools2 - Turntable is great, this makes it even better.."
   },
   "background_page": "html/background.html",
   "content_scripts": [
@@ -33,7 +34,7 @@
       "run_at" : "document_idle"
     }
   ],
-  "homepage_url": "https://github.com/egeste/ttTools",
+  "homepage_url": "https://github.com/gavinhogan/ttTools2",
   "permissions": [
     "tabs",
     "http://turntable.fm/*"
