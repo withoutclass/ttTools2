@@ -13,10 +13,11 @@ ttTools = {
 
   init : function() {
     $('<link/>', {
-      type : 'text/css',
-      rel  : 'stylesheet',
-      href : 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/sunny/jquery-ui.css'
+          type : 'text/css',
+          rel  : 'stylesheet',
+          href : 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.1/themes/sunny/jquery-ui.css'
     }).appendTo(document.head);
+
 
     this.views.menu.render();
     this.views.users.render();
