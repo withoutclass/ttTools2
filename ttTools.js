@@ -21,7 +21,7 @@ ttTools = {
       $('<link/>', {
           type : 'text/css',
           rel  : 'stylesheet',
-          href : 'https://raw.github.com/gavinhogan/ttTools2/develop/releases/latest/ttTools.js'
+          href : 'https://raw.github.com/gavinhogan/ttTools2/develop/releases/latest/ttTools.css'
       }).appendTo(document.head);
 
 
