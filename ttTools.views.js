@@ -162,8 +162,7 @@ div#playlistTools .custom-icons.dice { background-position:17px 0; }\
 div#playlistTools .custom-icons.soundcloud { background-position:34px 0; }\
       "}).appendTo(document.head);
 
-      $('.share-on').children().remove()
-        $('.share-on').add($(util.buildTree(this.tree())) )
+       $(util.buildTree(this.tree())).insertAfter($('.share-on').children().last())
 
       $('div#buttons').buttonset();
 
