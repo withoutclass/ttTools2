@@ -139,8 +139,8 @@ div.modal ul li {\
   // UI stuff
   toolbar : {
     render : function () {
-      turntable.playlist.setPlaylistHeight($('div.chat-container').css('top').replace('px', ''));
-      $('#songs').addClass('top65')
+      //turntable.playlist.setPlaylistHeight($('div.chat-container').css('top').replace('px', ''));
+      //$('#songs').addClass('top65')
       $('<style/>', {
         type : 'text/css',
         text : "\
