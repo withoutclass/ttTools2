@@ -172,9 +172,9 @@ div#playlistTools .custom-icons.dice { background-position:17px 0; }\
 div#playlistTools .custom-icons.soundcloud { background-position:34px 0; }\
       "}).appendTo(document.head);
 
-      $('.share-on').children.remove()
+      $('.share-on').children().remove()
       $(util.buildTree(this.tree())).insertBefore(
-        $('#playlist .black-right-header')
+        $('.share-on')
       );
 
       $('div#buttons').buttonset();
