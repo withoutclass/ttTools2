@@ -29,7 +29,7 @@ To add the bookmark manually:
 *   After entering a turntable.fm room, click the ttTools bookmark.
 
 ## Found a bug? Want a feature?
-It's impossible to keep track of bugs and feature requests unless they're centralized. [Please submit all bugs and feature requests here.](https://github.com/gavinhogan/ttTools/issues)
+It's impossible to keep track of bugs and feature requests unless they're centralized. [Please submit all bugs and feature requests here.](https://github.com/gavinhogan/ttTools2/issues)
 
 
 ## Send questions, comments, complaints, money, and spam to:
