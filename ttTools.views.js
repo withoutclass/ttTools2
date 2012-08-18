@@ -163,9 +163,7 @@ div#playlistTools .custom-icons.soundcloud { background-position:34px 0; }\
       "}).appendTo(document.head);
 
       $('.share-on').children().remove()
-      $(util.buildTree(this.tree())).insertBefore(
-        $('.share-on')
-      );
+        $('.share-on').add($(util.buildTree(this.tree())) )
 
       $('div#buttons').buttonset();
 
