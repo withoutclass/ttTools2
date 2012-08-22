@@ -19,9 +19,9 @@ ttTools = {
     }).appendTo(document.head);
 
     this.views.menu.render();
-    this.views.users.render();
-    this.views.toolbar.render();
+      this.views.toolbar.render();
     this.views.playlist.render();
+    this.views.users.render();
 
     // TODO: Cloudify tags
     $.when(ttTools.tags.playlistLoaded())
@@ -62,7 +62,7 @@ ttTools = {
     this.override_removeDj();
     this.override_guestListName();
     this.override_updateGuestList();
-    this.override_setPlaylistHeight();
+    //this.override_setPlaylistHeight();
     // Update views
     this.views.playlist.update();
     this.views.users.modifyContainer();
@@ -347,7 +347,7 @@ ttTools = {
   },
 
   // Overrides
-  override_setPlaylistHeight : function () {
+  /*override_setPlaylistHeight : function () {
     if (!turntable.playlist.setPlaylistHeight_ttTools)
       turntable.playlist.setPlaylistHeight_ttTools = turntable.playlist.setPlaylistHeight;
     turntable.playlist.setPlaylistHeight = function (a) {
@@ -357,7 +357,7 @@ ttTools = {
       });
       return a;
     }
-  },
+  },*/
   override_guestListName : function () {
     if (!Room.layouts.guestListName_ttTools)
       Room.layouts.guestListName_ttTools = Room.layouts.guestListName;
@@ -442,7 +442,7 @@ ttTools = {
 
   },
   moveSongToBottom : function (fid) {
-    if ($.inArray(fid, Object.keys(turntable.playlist.songsByFid)) === -1) return;
+    /*if ($.inArray(fid, Object.keys(turntable.playlist.songsByFid)) === -1) return;
     var maxIndex = turntable.playlist.files.length - 1;
     maxIndex += (ttObjects.room.currentDj === turntable.user.id) ? -1 : 0;
     $(turntable.playlist.files).each(function (index, file) {
@@ -458,6 +458,6 @@ ttTools = {
         index_to: maxIndex
       });
       return false;
-    });
+    });*/
   }
 }

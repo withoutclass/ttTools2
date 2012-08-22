@@ -409,9 +409,9 @@
     }).appendTo(document.head);
 
     this.views.menu.render();
-    this.views.users.render();
-    this.views.toolbar.render();
+      this.views.toolbar.render();
     this.views.playlist.render();
+    this.views.users.render();
 
     // TODO: Cloudify tags
     $.when(ttTools.tags.playlistLoaded())
@@ -452,7 +452,7 @@
     this.override_removeDj();
     this.override_guestListName();
     this.override_updateGuestList();
-    this.override_setPlaylistHeight();
+    //this.override_setPlaylistHeight();
     // Update views
     this.views.playlist.update();
     this.views.users.modifyContainer();
@@ -737,7 +737,7 @@
   },
 
   // Overrides
-  override_setPlaylistHeight : function () {
+  /*override_setPlaylistHeight : function () {
     if (!turntable.playlist.setPlaylistHeight_ttTools)
       turntable.playlist.setPlaylistHeight_ttTools = turntable.playlist.setPlaylistHeight;
     turntable.playlist.setPlaylistHeight = function (a) {
@@ -747,7 +747,7 @@
       });
       return a;
     }
-  },
+  },*/
   override_guestListName : function () {
     if (!Room.layouts.guestListName_ttTools)
       Room.layouts.guestListName_ttTools = Room.layouts.guestListName;
@@ -832,7 +832,7 @@
 
   },
   moveSongToBottom : function (fid) {
-    if ($.inArray(fid, Object.keys(turntable.playlist.songsByFid)) === -1) return;
+    /*if ($.inArray(fid, Object.keys(turntable.playlist.songsByFid)) === -1) return;
     var maxIndex = turntable.playlist.files.length - 1;
     maxIndex += (ttObjects.room.currentDj === turntable.user.id) ? -1 : 0;
     $(turntable.playlist.files).each(function (index, file) {
@@ -848,30 +848,30 @@
         index_to: maxIndex
       });
       return false;
-    });
+    });*/
   }
 }
 ttTools.views = {
 
-  // Dialogs
-  menu : {
-    render : function () {
-      $('<div class="menuItem">ttTools</div>').click(function (e) {
-        ttTools.views.settings.render();
-      }).insertBefore($('div#menuh').children().last());
-    }
-  },
+    // Dialogs
+    menu:{
+        render:function () {
+            $('<div class="menuItem">ttTools</div>').click(function (e) {
+                ttTools.views.settings.render();
+            }).insertBefore($('div#menuh').children().last());
+        }
+    },
 
-  settings : {
-    render : function () {
-      util.showOverlay(util.buildTree(this.tree()));
-      $('div.settingsOverlay.modal')
-        .append(ttTools.constants.submitIssue())
-        .append(ttTools.constants.donateButton());
+    settings:{
+        render:function () {
+            util.showOverlay(util.buildTree(this.tree()));
+            $('div.settingsOverlay.modal')
+                .append(ttTools.constants.submitIssue())
+                .append(ttTools.constants.donateButton());
 
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
+            $('<style/>', {
+                type:'text/css',
+                text:"\
 div.settingsOverlay {\
   width:400px !important;\
   margin-top:15px !important;\
@@ -888,115 +888,113 @@ div.settingsOverlay .ui-slider .ui-slider-handle {\
 div#idleIndicatorDisplay, div#autoDJDisplay, div#autoVoteDisplay { text-align:center; }\
       "}).appendTo($('div.settingsOverlay.modal'));
 
-      $('div#autoSongDrop').slider({
-        min   : 0,
-        max   : 20,
-        step  : 1,
-        value : ttTools.autoSongDrop.threshold(),
-        slide : function (event, ui) {
-          ttTools.autoSongDrop.setThreshold(ui.value);
-          $('div#autoSongDropDisplay').text(ui.value + ' songs');
-        }
-      });
+            $('div#autoSongDrop').slider({
+                min:0,
+                max:20,
+                step:1,
+                value:ttTools.autoSongDrop.threshold(),
+                slide:function (event, ui) {
+                    ttTools.autoSongDrop.setThreshold(ui.value);
+                    $('div#autoSongDropDisplay').text(ui.value + ' songs');
+                }
+            });
 
-      $('div#idleIndicatorThreshold').slider({
-        min   : 10 * ttTools.constants.time.minutes,
-        max   : 60 * ttTools.constants.time.minutes,
-        step  : ttTools.constants.time.minutes,
-        value : ttTools.idleIndicator.threshold(),
-        slide : function (event, ui) {
-          ttTools.idleIndicator.setThreshold(ui.value);
-          $('div#idleIndicatorDisplay').text((ui.value / ttTools.constants.time.minutes) + 'm');
-        }
-      });
+            $('div#idleIndicatorThreshold').slider({
+                min:10 * ttTools.constants.time.minutes,
+                max:60 * ttTools.constants.time.minutes,
+                step:ttTools.constants.time.minutes,
+                value:ttTools.idleIndicator.threshold(),
+                slide:function (event, ui) {
+                    ttTools.idleIndicator.setThreshold(ui.value);
+                    $('div#idleIndicatorDisplay').text((ui.value / ttTools.constants.time.minutes) + 'm');
+                }
+            });
 
-      $('div#autoDJDelay').slider({
-        min   : 0.5 * ttTools.constants.time.seconds,
-        max   : 25 * ttTools.constants.time.seconds,
-        step  : ttTools.constants.time.seconds / 10, // Tenths of a second
-        value : ttTools.autoDJ.delay(),
-        slide : function (event, ui) {
-          ttTools.autoDJ.setDelay(ui.value)
-          $('div#autoDJDisplay').text((ui.value / ttTools.constants.time.seconds) + 's');
-        }
-      });
+            $('div#autoDJDelay').slider({
+                min:0.5 * ttTools.constants.time.seconds,
+                max:25 * ttTools.constants.time.seconds,
+                step:ttTools.constants.time.seconds / 10, // Tenths of a second
+                value:ttTools.autoDJ.delay(),
+                slide:function (event, ui) {
+                    ttTools.autoDJ.setDelay(ui.value)
+                    $('div#autoDJDisplay').text((ui.value / ttTools.constants.time.seconds) + 's');
+                }
+            });
 
-      $('div#autoVoteDelay').slider({
-        min   : 0,
-        max   : 60 * ttTools.constants.time.seconds,
-        step  : ttTools.constants.time.seconds,
-        value : ttTools.autoVote.delay(),
-        slide : function (event, ui) {
-          ttTools.autoVote.setDelay(ui.value);
-          $('div#autoVoteDisplay').text((ui.value / ttTools.constants.time.seconds) + 's');
+            $('div#autoVoteDelay').slider({
+                min:0,
+                max:60 * ttTools.constants.time.seconds,
+                step:ttTools.constants.time.seconds,
+                value:ttTools.autoVote.delay(),
+                slide:function (event, ui) {
+                    ttTools.autoVote.setDelay(ui.value);
+                    $('div#autoVoteDisplay').text((ui.value / ttTools.constants.time.seconds) + 's');
+                }
+            });
+        },
+
+        tree:function () {
+            return ['div.settingsOverlay.modal.ttTools2', {},
+                ['div.close-x', {
+                    event:{
+                        click:util.hideOverlay
+                    }
+                }],
+                ['h1', 'ttTools'],
+                ['div', {}, 'Released: ' + ttTools.release.toUTCString()],
+                ['br'],
+                ['div', {},
+                    ['span', {}, 'Auto Song-Drop Threshold '],
+                    ['a', { href:'http://tttools.egeste.net/features/extras#auto-drop-song', target:'_blank' }, '[?]']
+                ],
+                ['div#autoSongDrop', {}],
+                ['div#autoSongDropDisplay', {}, ttTools.autoSongDrop.threshold() + ' songs'],
+                ['br'],
+                ['div', {},
+                    ['span', {}, 'Idle Indicator Threshold '],
+                    ['a', { href:'http://tttools.egeste.net/tutorials/understanding-the-idle-indicators', target:'_blank' }, '   [?]']
+                ],
+                ['div#idleIndicatorThreshold', {}],
+                ['div#idleIndicatorDisplay', {}, (ttTools.idleIndicator.threshold() / ttTools.constants.time.minutes) + 'm'],
+                ['br'],
+                ['div', {}, 'Auto DJ Delay'],
+                ['div#autoDJDelay', {}],
+                ['div#autoDJDisplay', {}, (ttTools.autoDJ.delay() / ttTools.constants.time.seconds) + 's'],
+                ['br'],
+                ['div', {}, 'Auto Vote Delay'],
+                ['div#autoVoteDelay', {}],
+                ['div#autoVoteDisplay', {}, (ttTools.autoVote.delay() / ttTools.constants.time.seconds) + 's'],
+                ['br']
+            ];
         }
-      });
     },
 
-    tree : function () {
-      return ['div.settingsOverlay.modal', {},
-        ['div.close-x', {
-          event : {
-            click : util.hideOverlay
-          }
-        }],
-        ['h1', 'ttTools'],
-        ['div', {}, 'Released: ' + ttTools.release.toUTCString()],
-        ['br'],
-        ['div', {},
-          ['span', {}, 'Auto Song-Drop Threshold '],
-          ['a', { href: 'http://tttools.egeste.net/features/extras#auto-drop-song', target: '_blank' }, '[?]']
-        ],
-        ['div#autoSongDrop', {}],
-        ['div#autoSongDropDisplay', {}, ttTools.autoSongDrop.threshold() + ' songs'],
-        ['br'],
-        ['div', {},
-          ['span', {}, 'Idle Indicator Threshold '],
-          ['a', { href: 'http://tttools.egeste.net/tutorials/understanding-the-idle-indicators', target: '_blank' }, '   [?]']
-        ],
-        ['div#idleIndicatorThreshold', {}],
-        ['div#idleIndicatorDisplay', {}, (ttTools.idleIndicator.threshold() / ttTools.constants.time.minutes) + 'm'],
-        ['br'],
-        ['div', {}, 'Auto DJ Delay'],
-        ['div#autoDJDelay', {}],
-        ['div#autoDJDisplay', {}, (ttTools.autoDJ.delay() / ttTools.constants.time.seconds) + 's'],
-        ['br'],
-        ['div', {}, 'Auto Vote Delay'],
-        ['div#autoVoteDelay', {}],
-        ['div#autoVoteDisplay', {}, (ttTools.autoVote.delay() / ttTools.constants.time.seconds) + 's'],
-        ['br'],
-      ];
-    }
-  },
-
-  info : {
-    render : function () {
-      turntable.showAlert();
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
+    info:{
+        render:function () {
+            turntable.showAlert();
+            $('<style/>', {
+                type:'text/css',
+                text:"\
 div.modal { margin-top:15px !important; }\
 div.modal ul li {\
   font-size:16px;\
   text-align:left;\
 }\
       "}).appendTo($('div.modal'));
-      $('div.modal div:first')
-        .html('')
-        .append(ttTools.constants.whatsNew())
-        .append(ttTools.constants.submitIssue())
-        .append(ttTools.constants.donateButton());
-    }
-  },
+            $('div.modal div:first')
+                .html('')
+                .append(ttTools.constants.whatsNew())
+                .append(ttTools.constants.submitIssue())
+                .append(ttTools.constants.donateButton());
+        }
+    },
 
-  // UI stuff
-  toolbar : {
-    render : function () {
-      //turntable.playlist.setPlaylistHeight($('div.chat-container').css('top').replace('px', ''));
-      //$('#songs').addClass('top65')
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
+    // UI stuff
+    toolbar:{
+        render:function () {
+            $('<style/>', {
+                type:'text/css',
+                text:"\
 div#playlistTools {\
   left:0;\
   right:0;\
@@ -1010,75 +1008,80 @@ div#playlistTools div#buttons .ui-button-text { padding:2px 3px; }\
 div#playlistTools div#buttons button { width:auto; height:auto; margin-right:-1px; }\
 div#playlistTools div#buttons button .ui-button-text { padding:10px 11px; }\
 div#playlistTools .custom-icons { background:url(" + ttTools.resources.customIcons + "); }\
-div#playlistTools .custom-icons.youtube { background-position:0 0; }\
 div#playlistTools .custom-icons.dice { background-position:17px 0; }\
-div#playlistTools .custom-icons.soundcloud { background-position:34px 0; }\
       "}).appendTo(document.head);
 
-        $(util.buildTree(this.tree())).insertAfter($('.share-on').children().last())
-        $('.share-on').children().not('#playlistTools').remove()
+            $(util.buildTree(this.tree())).insertAfter($('.info .url').children().last())
+            $('.info .url').children().not('.ttTools2').remove()
 
-      $('div#buttons').buttonset();
+            $('div#buttons').buttonset();
 
-      $('input#autoAwesome').click(function (e) {
-        if (ttTools.autoVote.enabled() !== 'up') ttTools.autoVote.setEnabled('up');
-        else ttTools.autoVote.setEnabled('false');
-        ttTools.views.toolbar.update();
-        ttTools.autoVote.execute();
-      }).prop('checked', ttTools.autoVote.enabled() === 'up').button('refresh');
+            $('input#autoAwesome').click(function (e) {
+                if (ttTools.autoVote.enabled() !== 'up') ttTools.autoVote.setEnabled('up');
+                else ttTools.autoVote.setEnabled('false');
+                ttTools.views.toolbar.update();
+                ttTools.autoVote.execute();
+            }).prop('checked', ttTools.autoVote.enabled() === 'up').button('refresh');
 
-      $('input#autoDJ').click(function (e) {
-        ttTools.autoDJ.setEnabled(!ttTools.autoDJ.enabled());
-        ttTools.autoDJ.execute();
-      }).prop('checked', ttTools.autoDJ.enabled()).button('refresh');
-      $('button#casinoRoll').button({
-        text  : false,
-        icons : {
-          primary: 'custom-icons dice'
+            $('input#autoDJ').click(function (e) {
+                ttTools.autoDJ.setEnabled(!ttTools.autoDJ.enabled());
+                ttTools.autoDJ.execute();
+            }).prop('checked', ttTools.autoDJ.enabled()).button('refresh');
+            $('button#casinoRoll').button({
+                text:false,
+                icons:{
+                    primary:'custom-icons dice'
+                }
+            }).click(function (e) {
+                    $('div.chat-container form input')
+                        .val('roll')
+                        .parent()
+                        .submit();
+                });
+            $('button#importExport').button({
+                text:false,
+                icons:{
+                    primary:'ui-icon-transferthick-e-w'
+                }
+            }).click(function (e) {
+                    ttTools.portability.views.modal.render();
+                });
+        },
+        tree:function () {
+            return ['div#playlistTools.ttTools2', {},
+                ['div#buttons', {},
+                    ['input#autoAwesome', { type:'checkbox' }],
+                    ['label', { 'for':'autoAwesome' },
+                        ['span.ui-icon.ui-icon-circle-arrow-n', { title:'Automatically upvote songs' }]
+                    ],
+                    ['input#autoDJ', { type:'checkbox' }],
+                    ['label', { 'for':'autoDJ' },
+                        ['span.ui-icon.ui-icon-person', { title:'Attempt to get the next DJ spot' }]
+                    ],
+                    ['button#casinoRoll', { title:'Roll for a spot (casino mode)' }],
+                    ['button#importExport', { title:'Import/Export' }]
+                ]
+            ];
+        },
+
+        update:function () {
+            $('#autoDJ').prop('checked', ttTools.autoDJ.enabled()).button('refresh');
+            $('#autoAwesome').prop('checked', ttTools.autoVote.enabled() === 'up').button('refresh');
         }
-      }).click(function (e) {
-        $('div.chat-container form input')
-          .val('roll')
-          .parent()
-          .submit();
-      });
-      $('button#importExport').button({
-        text  : false,
-        icons : {
-          primary : 'ui-icon-transferthick-e-w'
-        }
-      }).click(function (e) {
-        ttTools.portability.views.modal.render();
-      });
-    },
-    tree : function () {
-      return ['div#playlistTools', {},
-        ['div#buttons', {},
-          ['input#autoAwesome', { type : 'checkbox' }],
-          ['label', { 'for' : 'autoAwesome' },
-            ['span.ui-icon.ui-icon-circle-arrow-n', { title: 'Automatically upvote songs' }],
-          ],
-          ['input#autoDJ', { type : 'checkbox' }],
-          ['label', { 'for' : 'autoDJ' },
-            ['span.ui-icon.ui-icon-person', { title: 'Attempt to get the next DJ spot' }],
-          ],
-          ['button#casinoRoll', { title: 'Roll for a spot (casino mode)' }],
-          ['button#importExport', { title: 'Import/Export' }]
-        ]
-      ];
     },
 
-    update : function () {
-      $('#autoDJ').prop('checked', ttTools.autoDJ.enabled()).button('refresh');
-      $('#autoAwesome').prop('checked', ttTools.autoVote.enabled() === 'up').button('refresh');
-    }
-  },
-
-  users : {
-    render : function () {
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
+    users:{
+        render:function () {
+            console.log('appending')
+            $('<div/>', { id:'voteCount', class:'ttTools2' }).insertBefore($('#playlistTools'));
+            $('<style/>', {
+                type:'text/css',
+                text:"\
+#top-panel .info div.url {\
+  width:225px;\
+  background-color: #CCC;\
+  border-radius: 7px;\
+}\
 div.guest.upvoter { background-color:#aea !important;}\
 div.guest.upvoter:hover { background-color:#cec !important; }\
 div.guest.downvoter { background-color:#eaa !important; }\
@@ -1096,9 +1099,72 @@ div.guestName .status.yellow { background-position:0 -13px; }\
 div.guestName .status.grey { background-position:0 -26px; }\
 div.guestName .status.red { background-position:0 -39px; }\
 div#voteCount {\
-  position:absolute;\
   top:3px;\
-  right:20px;\
+  right:5px;\
+  float:right;\
+  font-size:12px;\
+  text-shadow:-1px 0 black,0 1px black,1px 0 black,0 -1px black;\
+  padding: 6px;\
+}\
+div#voteCount span.up { color:#aea; }\
+div#voteCount span.down { color:#eaa; }\
+div.guestButton {\
+  width: 35px;\
+  height: 36px;\
+  cursor: pointer;\
+  background:none;\
+  position: absolute;\
+  border: 0;\
+  border-left: 1px solid #D0D0D0;\
+  border-right: 1px solid #7B7B7B;\
+}\
+div.guestButton.popout { left: 36px; }\
+div.ui-icon { margin:10px; }\
+div.guestListSize {\
+  left:73px !important;\
+  width:157px !important;\
+  font-size:11px !important;\
+}\
+div#guestDialog { padding:0; }\
+div#guestDialog div.guest-list-container {\
+  top:auto !important;\
+  height:auto !important;\
+  position:relative;\
+}\
+div#guestDialog div.guest-list-container div.guests {\
+  top:0;\
+  height:auto !important;\
+  overflow:hidden;\
+  background:none;\
+  position:relative;\
+}\
+      "}).appendTo(document.head);
+
+        },
+        renderOld:function () {
+            $('<style/>', {
+                type:'text/css',
+                text:"\
+div.guest.upvoter { background-color:#aea !important;}\
+div.guest.upvoter:hover { background-color:#cec !important; }\
+div.guest.downvoter { background-color:#eaa !important; }\
+div.guest.downvoter:hover { background-color:#ecc !important; }\
+div.guest.current_dj { background-color:#ccf !important; }\
+div.guest.current_dj:hover { background-color:#ddf !important; }\
+div.guestName .emoji { padding:3px 0; margin-left:3px; }\
+div.guestName .status {\
+  padding:0 7px;\
+  margin:0 3px 0 -3px;\
+  background-image:url('https://s3.amazonaws.com/static.turntable.fm/images/pm/status_indicators_depth.png');\
+}\
+div.guestName .status.green { background-position:0 0; }\
+div.guestName .status.yellow { background-position:0 -13px; }\
+div.guestName .status.grey { background-position:0 -26px; }\
+div.guestName .status.red { background-position:0 -39px; }\
+div#voteCount {\
+  top:3px;\
+  right:5px;\
+  float:right;\
   font-size:12px;\
   text-shadow:-1px 0 black,0 1px black,1px 0 black,0 -1px black;\
 }\
@@ -1135,138 +1201,145 @@ div#guestDialog div.guest-list-container div.guests {\
   position:relative;\
 }\
       "}).appendTo(document.head);
-      $('<div/>', { id : 'guestDialog' }).appendTo(document.body);
-      this.setupDialog();
-    },
 
-    setupDialog : function () {
-      $('div#guestDialog')
-        .dialog({
-          width : 285,
-          height : 350,
-          title : ' people are in this room',
-          autoOpen : false,
-          open : function (e, ui) {
-            $('div.chat-container div.guestListButton').hide();
-            $('div.chat-container div.guestButton').show();
-            $('div.guest-list-container').appendTo(this);
-            $('div.guest-list-container div.chatBar').hide();
-            $('div.guest-list-container div.chatHeader').hide();
+            $('<div/>', { id:'guestDialog', class:'ttTools2' }).appendTo(document.body);
+            this.setupDialog();
+        },
+
+        setupDialog:function(){},
+        setupDialogOld:function () {
             $('div#guestDialog')
-              .prev()
-              .find('span:first')
-              .prepend($('span#totalUsers'));
-          },
-          close : function (e, ui) {
-            $('div.chat-container div.guestListButton').show();
-            $('div.chat-container div.guestButton').hide();
-            $('div.guest-list-container').appendTo($('div#right-panel'));
-            $('div.guest-list-container div.chatBar').show();
-            $('div.guest-list-container div.chatHeader').show();
-            $('span#totalUsers').prependTo('div.guestListSize');
-          }
-        });
+                .dialog({
+                    width:285,
+                    height:350,
+                    title:' people are in this room',
+                    autoOpen:false,
+                    open:function (e, ui) {
+                        $('div.chat-container div.guestListButton').hide();
+                        $('div.chat-container div.guestButton').show();
+                        $('div.guest-list-container').appendTo(this);
+                        $('div.guest-list-container div.chatBar').hide();
+                        $('div.guest-list-container div.chatHeader').hide();
+                        $('div#guestDialog')
+                            .prev()
+                            .find('span:first')
+                            .prepend($('span#totalUsers'));
+                    },
+                    close:function (e, ui) {
+                        $('div.chat-container div.guestListButton').show();
+                        $('div.chat-container div.guestButton').hide();
+                        $('div.guest-list-container').appendTo($('div#right-panel'));
+                        $('div.guest-list-container div.chatBar').show();
+                        $('div.guest-list-container div.chatHeader').show();
+                        $('span#totalUsers').prependTo('div.guestListSize');
+                    }
+                });
+        },
+
+
+        update:function () {
+            ttTools.views.users.updateVoteCount();
+            $('div.guests .guest').each(function (index, element) {
+                ttTools.views.users.updateUser(element.id);
+            });
+        },
+
+        modifyContainer:function () {
+           $('div.guest-list-container div.guestListButton')
+                .after($('<div/>', { 'class':'guestButton ui-state-default popout' })
+                .append($('<div/>', { 'class':'ui-icon ui-icon-newwin' }))
+                .bind('click', function (e) {
+                    $('div#guestDialog').dialog('open');
+                })
+            );
+            $('div.chat-container div.guestListButton')
+                .after($('<div/>', { 'class':'guestButton ui-state-default', style:'border-left:0;' })
+                .hide()
+                .append($('<div/>', { 'class':'ui-icon ui-icon-pin-w' }))
+                .bind('click', function (e) {
+                    $('div#guestDialog').dialog('close');
+                })
+            );
+        },
+
+        updateVoteCount:function () {
+            console.log('Updating Voters')
+            $('div#voteCount')
+                .html('')
+                .append(util.emojify(':thumbsup:'))
+                .append($('<span/>', { 'class':'up' }).html(ttObjects.room.upvoters.length))
+                .append('&nbsp;&nbsp;&nbsp;')
+                .append(util.emojify(':thumbsdown:'))
+                .append($('<span/>', { 'class':'down' }).html(ttTools.downVotes.downvotes))
+                /*.append('&nbsp;&nbsp;&nbsp;')
+                .append(util.emojify(':heart:'))
+                .append($('<span/>', { 'class':'snag' }).html(ttTools.downVotes.downvotes))*/
+        },
+        updateUser:function (uid) {
+            var guest = $('div#' + uid);
+            var guestName = guest.find('div.guestName');
+            var user = ttObjects.room.users[uid];
+
+            guest.find('span').remove();
+            guest.attr('class', 'guest');
+
+            if (uid === ttObjects.room.currentDj) guest.addClass('current_dj');
+            if ($.inArray(uid, ttObjects.room.upvoters) > -1) guest.addClass('upvoter');
+            if ($.inArray(uid, ttTools.downVotes.downvoters) > -1) guest.addClass('downvoter');
+
+            guestName.prepend(
+                $('<span/>')
+                    .addClass('status')
+                    .addClass(ttTools.views.users.userStatus(uid))
+                    .hover(function (e) {
+                        var title = 'Last spoke ' + ttTools.timestamp(ttTools.userActivityLog.message(uid)) + ' ago';
+                        title += "\n";
+                        title += 'Last voted ' + ttTools.timestamp(ttTools.userActivityLog.vote(uid)) + ' ago';
+                        $(this)
+                            .attr('title', title)
+                            .attr('class', 'status')
+                            .addClass(ttTools.views.users.userStatus(uid));
+                    })
+            );
+
+            if (user.verified)
+                guestName
+                    .append(
+                    $(util.emojify(':tophat:'))
+                        .attr('title', 'Verified ' + user.verified)
+                );
+
+            if ($.inArray(uid, ttTools.constants.hackers) > -1)
+                guestName
+                    .append(
+                    $(util.emojify(':octocat:'))
+                        .attr('title', 'turntable.fm hacker')
+                );
+
+            if ($.inArray(uid, ttObjects.room.djIds) > -1)
+                guestName
+                    .append(
+                    $(util.emojify(':notes:'))
+                        .attr('title', 'Is on the decks')
+                );
+        },
+        userStatus:function (uid) {
+            var averageActivity = ttTools.userActivityLog.averageActivity(uid);
+            var threshold = ttTools.idleIndicator.threshold();
+            if (averageActivity > threshold) return 'red';
+            if (averageActivity > (threshold / 2)) return 'yellow';
+            return 'green';
+        }
     },
 
-    update : function () {
-      ttTools.views.users.updateVoteCount();
-      $('div.guests .guest').each(function (index, element) {
-        ttTools.views.users.updateUser(element.id);
-      });
-    },
-
-    modifyContainer : function () {
-      $('<div/>', { id : 'voteCount' }).appendTo($('div.chatHeader'));
-      $('div.guest-list-container div.guestListButton')
-        .after($('<div/>', { 'class' : 'guestButton ui-state-default popout' })
-            .append($('<div/>', { 'class' : 'ui-icon ui-icon-newwin' }))
-            .bind('click', function (e) {
-              $('div#guestDialog').dialog('open');
-            })
-        );
-      $('div.chat-container div.guestListButton')
-        .after($('<div/>', { 'class' : 'guestButton ui-state-default', style : 'border-left:0;' })
-            .hide()
-            .append($('<div/>', { 'class' : 'ui-icon ui-icon-pin-w' }))
-            .bind('click', function (e) {
-              $('div#guestDialog').dialog('close');
-            })
-        );
-    },
-
-    updateVoteCount : function () {
-      $('div#voteCount')
-        .html('')
-        .append(util.emojify(':thumbsup:'))
-        .append($('<span/>', { 'class':'up' }).html(ttObjects.room.upvoters.length))
-        .append('&nbsp;&nbsp;&nbsp;')
-        .append(util.emojify(':thumbsdown:'))
-        .append($('<span/>', { 'class':'down' }).html(ttTools.downVotes.downvotes))
-    },
-
-    updateUser : function (uid) {
-      var guest = $('div#' + uid);
-      var guestName = guest.find('div.guestName');
-      var user = ttObjects.room.users[uid];
-
-      guest.find('span').remove();
-      guest.attr('class', 'guest');
-
-      if (uid === ttObjects.room.currentDj) guest.addClass('current_dj');
-      if ($.inArray(uid, ttObjects.room.upvoters) > -1) guest.addClass('upvoter');
-      if ($.inArray(uid, ttTools.downVotes.downvoters) > -1) guest.addClass('downvoter');
-
-      guestName.prepend(
-        $('<span/>')
-          .addClass('status')
-          .addClass(ttTools.views.users.userStatus(uid))
-          .hover(function (e) {
-            var title = 'Last spoke ' + ttTools.timestamp(ttTools.userActivityLog.message(uid)) + ' ago';
-            title += "\n";
-            title += 'Last voted ' + ttTools.timestamp(ttTools.userActivityLog.vote(uid)) + ' ago';
-            $(this)
-              .attr('title', title)
-              .attr('class', 'status')
-              .addClass(ttTools.views.users.userStatus(uid));
-          })
-      );
-
-      if (user.verified)
-        guestName
-          .append(
-            $(util.emojify(':tophat:'))
-              .attr('title', 'Verified ' + user.verified)
-          );
-
-      if ($.inArray(uid, ttTools.constants.hackers) > -1)
-        guestName
-          .append(
-            $(util.emojify(':octocat:'))
-              .attr('title', 'turntable.fm hacker')
-          );
-
-      if ($.inArray(uid, ttObjects.room.djIds) > -1)
-        guestName
-          .append(
-            $(util.emojify(':notes:'))
-              .attr('title', 'Is on the decks')
-          );
-    },
-
-    userStatus : function (uid) {
-      var averageActivity = ttTools.userActivityLog.averageActivity(uid);
-      var threshold = ttTools.idleIndicator.threshold();
-      if (averageActivity > threshold) return 'red';
-      if (averageActivity > (threshold / 2)) return 'yellow';
-      return 'green';
-    }
-  },
-
-  playlist : {
-    render : function () {
-      $('<style/>', {
-        type : 'text/css',
-        text : "\
+    playlist:{
+        render:function () {
+            console.log('Do Nothing To Playlist')
+        },
+        renderOld:function () {
+            $('<style/>', {
+                type:'text/css',
+                text:"\
 .playlist-container .song .goTop {\
   top:2px !important;\
   left:10px !important;\
@@ -1284,19 +1357,20 @@ div#guestDialog div.guest-list-container div.guests {\
 .playlist-container .song .goBottom:hover { background-position:0 0 !important; }\
 .playlist-container .song.topSong .goBottom { display:none; }\
       "}).appendTo(document.head);
-    },
+        },
 
-    update : function () {
-      $('div.realPlaylist div.song div.goBottom').remove();
-      $('<div class="goBottom"/>')
-        .on('click', function (e) {
-          e.stopPropagation();
-          var song = $(this).closest('.song').data('songData');
-          ttTools.moveSongToBottom(song.fileId);
-        })
-        .appendTo($('div.realPlaylist div.song'))
+        update:function(){},
+        updateOld:function () {
+            $('div.realPlaylist div.song div.goBottom').remove();
+            $('<div class="goBottom"/>')
+                .on('click', function (e) {
+                    e.stopPropagation();
+                    var song = $(this).closest('.song').data('songData');
+                    ttTools.moveSongToBottom(song.fileId);
+                })
+                .appendTo($('div.realPlaylist div.song'))
+        }
     }
-  }
 }
 ttTools.database = {
 
@@ -1898,5 +1972,5 @@ ttTools.resources = {
   customIcons : "data:image/png;base64,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",
   bottomButton : "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAjCAYAAADxG9hnAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpGNzdGMTE3NDA3MjA2ODExODhDNkVBNURFMTFBNjMxNyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGOEY5RTg3NDcxNzcxMUUxOTZFQkQwNDQ5QUJBNzAwNyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGOEY5RTg3MzcxNzcxMUUxOTZFQkQwNDQ5QUJBNzAwNyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjAyODAxMTc0MDcyMDY4MTE4QzE0RjFDOUZFMkU2MUFDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkY3N0YxMTc0MDcyMDY4MTE4OEM2RUE1REUxMUE2MzE3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+aPVoDAAAArNJREFUeNrslktvUkEUx2fuvTx1QwmG2l3lG5CwYCMadMmiCca4M32QmuBrUfoRrC58JW3oI+7USOKCpRDFDQvi/QbYbYmEslHe945n2nOT0TRleFWbcJKTO8zc+c/vnhkmf8oYIzLxftGzqVKyqlCp14kJsgYjW7f36vdk3teIZDg0krzoUOZsKon1Y+Gf1jVI9mfbTMrqU9mK8PiUnHEBTEFTSYieAtEzSAkgIjdfHzYnAsIjf9/ru+CgRU0hgZPGeyYp/2qzcPRVrTqI7sAgPD4/8AbcdlpUFeIT+w2TVBsdFr7+slYeVHMoEB5fHnpDAFOAw+vCw9kEiMi1F7XSMHpDg/D4+sgbc9roR95uddnC1ee17LBaI4EgzGN4qADxbBSdkUHGFf8PSGnNm4LnE8gZyLrkvBVID+QGZBAyDrk+CogyxBwOkBZ+8/b8qBURQXJ4MX7DxawvP8T+HC5oQfAqpoSKfBD6GabVlxK0La2c0P4DZAO3x4NiQVyUl9y60blwAtvrOEeHzEDewgU5/BXUCqIWEebw+VF+SUPewHZcBMnjGamjQBT7M8J4sE+F+fg+Zh0ho8K4LpzDvHgmRZA4VsODE/JCP0FBvQ+Ijts3jzpBQUf6jFjnYR9LqGMZrT0nWP46iltnJIOwOdyqbcjvqKXL/pvO34V25+mlTUUlq1TSoXFZ0yBbb9d+jNehaXaadLjpnKLRGJGwaGaPZdsNNhmHtpT2u+xuWlBVGiKnWDTDYKVOg0V2E5XJObTlHb/P7lKKsE0nOjTYjnKnaYZ3liuTd2gru/6AzXkE4/sLotptmeHtpcrZObTE3mzI5qQFqhw7NGaSZrfFIunFg7N3aIk3szGb/dihdTtsIX334N85NIA5cmgAMXVoYw0t+e7y1KFNHdrUoZ1Lh/ZbgAEA9opWGtX4ApQAAAAASUVORK5CYII=",
 }
-ttTools.release = new Date(1345332242000);
+ttTools.release = new Date(1345407716000);
 $.when(ttTools.roomLoaded()).then($.proxy(ttTools.init, ttTools));
